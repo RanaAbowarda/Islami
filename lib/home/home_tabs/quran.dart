@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:islami/models/sura_model.dart';
 import 'package:islami/sura_details.dart';
@@ -10,6 +12,8 @@ class QuranTab extends StatefulWidget {
   State<QuranTab> createState() => _QuranTabState();
 }
 
+List<String> sura = [];
+int index = 0;
 List<String> suraNames = [
   "الفاتحه",
   "البقرة",
@@ -254,72 +258,73 @@ class _QuranTabState extends State<QuranTab> {
           "assets/images/qur2an_screen_logo.png",
           height: 277,
         ),
-        Table(
-            border: TableBorder.all(color: Color(0xffB7935F), width: 3),
+
+        Divider(thickness:3 ,color: Color(0xffB7935F),),
+        IntrinsicHeight(
+          child: Row(
+             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TableRow(children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TableCell(
-                    child: Text(
-                      "عدد الآيات",
-                      style: GoogleFonts.elMessiri(
-                          fontSize: 25, fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TableCell(
-                      child: Text(
-                    "اسم السورة",
+          
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 40),
+            child: Text("عدد الآيات",
                     style: GoogleFonts.elMessiri(
                         fontSize: 25, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.center,
-                  )),
-                ),
-              ]),
-              TableRow(children: [
-                TableCell(
-                  child: SizedBox(
-                    height: 378,
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return Text(
-                          numberOfAyaat[index],
-                          style: GoogleFonts.inder(
-                              fontSize: 25, fontWeight: FontWeight.w400),
-                          textAlign: TextAlign.center,
-                        );
-                      },
-                      itemCount: numberOfAyaat.length,
-                    ),
                   ),
+          ),
+              VerticalDivider(thickness: 3,color: Color(0xffB7935F,),width: 20,),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30),
+                child: Text("اسم السورة",
+                  style: GoogleFonts.elMessiri(
+                      fontSize: 25, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
                 ),
-                TableCell(
-                  child: SizedBox(
-                    height: 378,
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, SuraDetails.routeName,arguments:SuraModel(suraNames[index], index));
-                          },
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return Table(
+                  border: TableBorder.all(color: Color(0xffB7935F), width: 3),
+                  children: [
+                    TableRow(children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TableCell(
                           child: Text(
-                            suraNames[index],
+                            numberOfAyaat[index],
                             style: GoogleFonts.inder(
                                 fontSize: 25, fontWeight: FontWeight.w400),
                             textAlign: TextAlign.center,
                           ),
-                        );
-                      },
-                      itemCount: suraNames.length,
-                    ),
-                  ),
-                ),
-              ]),
-            ]),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TableCell(
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, SuraDetails.routeName,
+                                  arguments: SuraModel(suraNames[index], index));
+                            },
+                            child: Text(
+                              suraNames[index],
+                              style: GoogleFonts.inder(
+                                  fontSize: 25, fontWeight: FontWeight.w400),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ]);
+            },
+          ),
+        ),
       ],
     );
   }
