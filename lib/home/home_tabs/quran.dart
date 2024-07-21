@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:islami/models/sura_model.dart';
 import 'package:islami/sura_details.dart';
 
@@ -258,38 +256,37 @@ class _QuranTabState extends State<QuranTab> {
           "assets/images/qur2an_screen_logo.png",
           height: 277,
         ),
-
-        Divider(thickness:3 ,color: Color(0xffB7935F),),
-        IntrinsicHeight(
-          child: Row(
-             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-          
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 40),
-            child: Text("عدد الآيات",
-                    style: GoogleFonts.elMessiri(
-                        fontSize: 25, fontWeight: FontWeight.w600),
+        Table(
+          border: TableBorder.all(color:Theme.of(context).dividerColor, width: 3),
+          children: [
+            TableRow(children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TableCell(
+                  child: Text(
+                    "numberOfVerses".tr(),
+                    style:Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
-          ),
-              VerticalDivider(thickness: 3,color: Color(0xffB7935F,),width: 20,),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30),
-                child: Text("اسم السورة",
-                  style: GoogleFonts.elMessiri(
-                      fontSize: 25, fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
                 ),
               ),
-            ],
-          ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TableCell(
+                    child: Text(
+                  "suraName".tr(),
+                      style:Theme.of(context).textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                )),
+              ),
+            ]),
+          ],
         ),
         Expanded(
           child: ListView.builder(
             itemBuilder: (context, index) {
               return Table(
-                  border: TableBorder.all(color: Color(0xffB7935F), width: 3),
+                  border: TableBorder.all(color:Theme.of(context).dividerColor, width: 1),
                   children: [
                     TableRow(children: [
                       Padding(
@@ -297,8 +294,7 @@ class _QuranTabState extends State<QuranTab> {
                         child: TableCell(
                           child: Text(
                             numberOfAyaat[index],
-                            style: GoogleFonts.inder(
-                                fontSize: 25, fontWeight: FontWeight.w400),
+                            style:Theme.of(context).textTheme.bodyLarge,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -308,13 +304,14 @@ class _QuranTabState extends State<QuranTab> {
                         child: TableCell(
                           child: InkWell(
                             onTap: () {
-                              Navigator.pushNamed(context, SuraDetails.routeName,
-                                  arguments: SuraModel(suraNames[index], index));
+                              Navigator.pushNamed(
+                                  context, SuraDetails.routeName,
+                                  arguments:
+                                      SuraModel(suraNames[index], index));
                             },
                             child: Text(
                               suraNames[index],
-                              style: GoogleFonts.inder(
-                                  fontSize: 25, fontWeight: FontWeight.w400),
+                              style:Theme.of(context).textTheme.bodyLarge,
                               textAlign: TextAlign.center,
                             ),
                           ),

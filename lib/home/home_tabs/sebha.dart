@@ -1,7 +1,11 @@
 
-import 'package:flutter/cupertino.dart';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:islami/home/my_theme_data.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/my_provider.dart';
 
 class SebhaTab extends StatefulWidget {
   const SebhaTab({super.key});
@@ -16,6 +20,8 @@ class _SebhaTabState extends State<SebhaTab> {
   int index=0;
   List<String>tasbeh=["سبحان الله","الحمد لله","لا اله الا الله ","الله أكبر "];
   Widget build(BuildContext context) {
+    var provider=Provider.of<MyProvider>(context);
+
     return Padding(
       padding: const EdgeInsets.only(top: 100.0),
       child: Column(
@@ -28,7 +34,7 @@ class _SebhaTabState extends State<SebhaTab> {
             children: [
               RotatedBox(
                 quarterTurns: counter,
-                child: Image.asset(
+                child: Image.asset(provider.mode==ThemeMode.dark?"assets/images/body_sebha_dark.png":
                   "assets/images/body_sebha_logo.png",
                   width: 232,
                   height: 234,
@@ -36,7 +42,7 @@ class _SebhaTabState extends State<SebhaTab> {
               ),
               Positioned(
                 top:-75,
-                child: Image.asset(
+                child: Image.asset(provider.mode==ThemeMode.dark?"assets/images/head_sebha_dark.png":
                   "assets/images/head_sebha_logo.png",
                   width: 73,
                   height: 105,
@@ -49,9 +55,8 @@ class _SebhaTabState extends State<SebhaTab> {
           Padding(
             padding: const EdgeInsets.all(30.0),
             child: Text(
-              "عدد التسبيحات",
-              style: GoogleFonts.elMessiri(
-                  fontSize: 25, fontWeight: FontWeight.w600),
+              "numberOfPraises".tr(),
+              style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
           ),
@@ -59,19 +64,17 @@ class _SebhaTabState extends State<SebhaTab> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xffB7935F),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    minimumSize: Size(69, 81)),
+               backgroundColor:provider.mode==ThemeMode.dark?MyThemeData.onSecondary:MyThemeData.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+
+            ),
+                    minimumSize: Size(69, 81)
+                ),
                 onPressed:counterIncrement,
                 child: Text(
                   "$counter",
-                  style: GoogleFonts.inter(
-                    color: Color(0XFF242424),
-                    fontSize: 25,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge
                 ),
               ),
               Padding(
@@ -81,12 +84,12 @@ class _SebhaTabState extends State<SebhaTab> {
                   width: 137,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    color: Color(0xffB7935F),
+                    color:provider.mode==ThemeMode.dark?MyThemeData.secondaryYellow:MyThemeData.primaryColor
+
                   ),
                   child: Text(
                     tasbeh[index],
-                    style: GoogleFonts.inter(
-                        fontSize: 25, fontWeight: FontWeight.w400,color:Colors.white),
+                    style:Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.center,
                   ),
                 ),

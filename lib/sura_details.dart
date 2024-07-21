@@ -1,58 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:islami/models/sura_model.dart';
+import 'package:islami/provider/my_provider.dart';
+import 'package:islami/provider/sura_provider.dart';
+import 'package:provider/provider.dart';
 
-class SuraDetails extends StatefulWidget {
+
+class SuraDetails extends StatelessWidget {
    SuraDetails({super.key});
   static const String routeName = "sura details";
 
   @override
-  State<SuraDetails> createState() => _SuraDetailsState();
-}
-
-class _SuraDetailsState extends State<SuraDetails> {
-  @override
-  List<String> verses=[];
   Widget build(BuildContext context) {
+    var pro=Provider.of<MyProvider>(context);
     var model=ModalRoute.of(context)?.settings.arguments as SuraModel;
-    if(verses.isEmpty){
-    loadSuraFile(model.index);}
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/default_bg.png"),
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          title: Text(model.name,
-              style: GoogleFonts.elMessiri(
-                fontSize: 30,
-                fontWeight: FontWeight.w700,
-              )),
-        ),
-        body: Card(
-          margin: EdgeInsets.all(20),
-          child: ListView.builder(itemBuilder: (context,index){
-            return Text(verses[index],style: GoogleFonts.inder(fontSize:25,),
-            textDirection: TextDirection.rtl,textAlign: TextAlign.start,);
-          },itemCount: verses.length,),
-        ),
-      ),
+
+
+    return ChangeNotifierProvider(create: (context)=>SuraProvider(),
+      builder: (context,child) {
+        var provider=Provider.of<SuraProvider>(context);
+        if(provider.verses.isEmpty){
+         provider.loadSuraFile(model.index);}
+        return Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(pro.mode==ThemeMode.dark?"assets/images/dark_bg.png":"assets/images/default_bg.png"),
+            ),
+          ),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(model.name,style:Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+            body: Card(
+              color: Theme.of(context).cardColor,
+              margin: EdgeInsets.all(30),
+              child: ListView.builder(itemBuilder: (context,index){
+                return Text(provider.verses[index],style:Theme.of(context).textTheme.bodyMedium,
+                  textDirection: TextDirection.rtl,textAlign: TextAlign.start,);
+              },itemCount: provider.verses.length,),
+            ),
+          ),
+        );
+      },
     );
-  }
-
-  loadSuraFile(int index)async{
-    String sura = await rootBundle.loadString("assets/files/${index+1}.txt");
-    List<String>suraLines=sura.split("\n");
-    print(suraLines);
-    verses=suraLines;
-    setState(() {
-
-    });
   }
 }
